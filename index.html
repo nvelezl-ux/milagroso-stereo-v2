@@ -129,6 +129,7 @@
         transition-duration: 0.01ms !important;
       }
       html { scroll-behavior: auto; }
+      .fade-in { opacity: 1; transform: none; transition: none; }
     }
 
     /* Sección base */
@@ -1236,6 +1237,32 @@
       text-align: center;
     }
     .chat-rate-msg[hidden] { display: none; }
+
+    /* ===========================
+       ANIMACIONES DE ENTRADA
+       =========================== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Nav con sombra al scrollear */
+    .nav.is-scrolled {
+      box-shadow: 0 2px 20px rgba(26,4,4,0.35);
+    }
+
+    /* Nav link activo */
+    .nav__link--active {
+      color: var(--color-cream);
+    }
+    .nav__link--active::after {
+      transform: scaleX(1);
+    }
   </style>
 </head>
 <body>
@@ -1362,7 +1389,7 @@
 
     <!-- ===== PROGRAMACIÓN ===== -->
     <section class="section section--mid" id="programacion" aria-label="Programación">
-      <div class="container">
+      <div class="container fade-in">
         <p class="section-label">Horarios</p>
         <h2 class="section-title">Programación</h2>
         <div class="divider"></div>
@@ -1426,7 +1453,7 @@
 
     <!-- ===== NOTICIAS ===== -->
     <section class="section" id="noticias" aria-label="Noticias">
-      <div class="container">
+      <div class="container fade-in">
         <p class="section-label">Comunidad</p>
         <h2 class="section-title">Noticias</h2>
         <div class="divider"></div>
@@ -1477,7 +1504,7 @@
 
     <!-- ===== NOSOTROS ===== -->
     <section class="section section--dark" id="nosotros" aria-label="Acerca de nosotros">
-      <div class="about container">
+      <div class="about container fade-in">
         <div class="about__image-col">
           <div class="about__image-wrap">
             <img
@@ -1516,7 +1543,7 @@
 
     <!-- ===== EN VIVO ===== -->
     <section class="section section--mid" id="en-vivo" aria-label="Reproductor en vivo">
-      <div class="container">
+      <div class="container fade-in">
         <p class="section-label">Transmisión</p>
         <h2 class="section-title">En Vivo</h2>
         <div class="divider"></div>
@@ -1558,7 +1585,7 @@
 
     <!-- ===== REDES SOCIALES ===== -->
     <section class="section" id="redes" aria-label="Redes sociales">
-      <div class="container">
+      <div class="container fade-in">
         <p class="section-label">Síguenos</p>
         <h2 class="section-title">Redes Sociales</h2>
         <div class="divider"></div>
@@ -2152,6 +2179,47 @@
 
     if (_chatMsgInput) { _chatMsgInput.value = ''; _chatMsgInput.focus(); }
   });
+
+  // ===== INTERSECTION OBSERVER — fade-in =====
+  (function() {
+    var fadeObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-in').forEach(function(el) {
+      fadeObserver.observe(el);
+    });
+
+    // ===== NAV SCROLL SHADOW =====
+    var navEl = document.getElementById('nav');
+    window.addEventListener('scroll', function() {
+      navEl.classList.toggle('is-scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // ===== NAV LINK ACTIVO =====
+    var sections = document.querySelectorAll('section[id]');
+    var navLinks = document.querySelectorAll('.nav__link');
+
+    var sectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(function(link) {
+            link.classList.toggle(
+              'nav__link--active',
+              link.getAttribute('href') === '#' + entry.target.id
+            );
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+
+    sections.forEach(function(s) { sectionObserver.observe(s); });
+  }());
   </script>
 
 </body>
