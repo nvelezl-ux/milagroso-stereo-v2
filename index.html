@@ -1467,6 +1467,158 @@
     });
   });
 
+  // ===== AUDIO PLAYER =====
+  var STREAM_URL = 'https://servidor33-5.brlogic.com:7100/live?source=website';
+  var _audio      = null;
+  var _isPlaying  = false;
+  var _isLoading  = false;
+
+  var _els = {
+    navBtn:        document.getElementById('navPlayBtn'),
+    heroBtn:       document.getElementById('heroPlayBtn'),
+    cardBtn:       document.getElementById('cardPlayBtn'),
+    navDot:        document.getElementById('navPlayerDot'),
+    navLabel:      document.getElementById('navPlayerLabel'),
+    heroDot:       document.getElementById('heroStatusDot'),
+    heroText:      document.getElementById('heroStatusText'),
+    cardBadgeDot:  document.getElementById('playerCardBadgeDot'),
+    cardSub:       document.getElementById('playerCardSub'),
+    cardError:     document.getElementById('playerCardError'),
+    cardVolSlider: document.getElementById('cardVolSlider'),
+    cardPlayIcon:  document.querySelector('#cardPlayBtn .player-card__play-icon'),
+    cardPauseIcon: document.querySelector('#cardPlayBtn .player-card__pause-icon'),
+    cardLoadIcon:  document.querySelector('#cardPlayBtn .player-card__loading-icon')
+  };
+
+  function _setLive(live) {
+    [_els.navDot, _els.heroDot, _els.cardBadgeDot].forEach(function (el) {
+      if (!el) return;
+      el.classList.toggle('is-live', live);
+    });
+    if (_els.navLabel)  _els.navLabel.textContent  = live ? 'EN VIVO' : 'OFFLINE';
+    if (_els.heroText)  _els.heroText.textContent   = live ? 'Al aire — En directo' : 'Sin señal';
+    if (_els.cardSub)   _els.cardSub.textContent    = live ? 'Al aire — En directo' : 'Listo para transmitir';
+  }
+
+  function _setIcons(state) {
+    // state: 'play' | 'pause' | 'loading'
+    if (_els.cardPlayIcon)  _els.cardPlayIcon.style.display  = state === 'play'    ? 'block' : 'none';
+    if (_els.cardPauseIcon) _els.cardPauseIcon.style.display = state === 'pause'   ? 'block' : 'none';
+    if (_els.cardLoadIcon)  _els.cardLoadIcon.style.display  = state === 'loading' ? 'block' : 'none';
+  }
+
+  function _setAriaLabels(playing) {
+    var label = playing ? 'Pausar transmisión' : 'Reproducir transmisión en vivo';
+    [_els.navBtn, _els.heroBtn, _els.cardBtn].forEach(function (btn) {
+      if (btn) btn.setAttribute('aria-label', label);
+    });
+  }
+
+  function _showError(msg) {
+    if (_els.cardError) _els.cardError.textContent = msg;
+  }
+  function _clearError() {
+    if (_els.cardError) _els.cardError.textContent = '';
+  }
+
+  function _createAudio() {
+    _audio = new Audio(STREAM_URL);
+    _audio.preload = 'none';
+
+    _audio.addEventListener('playing', function () {
+      _isPlaying = true;
+      _isLoading = false;
+      _setIcons('pause');
+      _setAriaLabels(true);
+      _setLive(true);
+      _clearError();
+    });
+
+    _audio.addEventListener('waiting', function () {
+      _isLoading = true;
+      _setIcons('loading');
+    });
+
+    _audio.addEventListener('error', function () {
+      _isPlaying = false;
+      _isLoading = false;
+      _setIcons('play');
+      _setAriaLabels(false);
+      _setLive(false);
+      _showError('Error al conectar. Verifica tu conexión e inténtalo de nuevo.');
+      _audio = null;
+    });
+
+    _audio.addEventListener('ended', function () {
+      _isPlaying = false;
+      _setIcons('play');
+      _setAriaLabels(false);
+      _setLive(false);
+    });
+
+    if (_els.cardVolSlider) {
+      _audio.volume = Number(_els.cardVolSlider.value) / 100;
+    }
+  }
+
+  function toggleAudio() {
+    _clearError();
+    if (!_audio) _createAudio();
+
+    if (_isPlaying) {
+      _audio.pause();
+      _isPlaying = false;
+      _setIcons('play');
+      _setAriaLabels(false);
+      _setLive(false);
+    } else {
+      _setIcons('loading');
+      _audio.play().catch(function (err) {
+        _showError('No se pudo iniciar la transmisión. Verifica tu conexión.');
+        _setIcons('play');
+        _setAriaLabels(false);
+        _setLive(false);
+        _isLoading = false;
+      });
+    }
+  }
+
+  // Volume control
+  if (_els.cardVolSlider) {
+    _els.cardVolSlider.addEventListener('input', function (e) {
+      if (_audio) _audio.volume = Number(e.target.value) / 100;
+    });
+  }
+
+  // Bind all play buttons
+  [_els.navBtn, _els.heroBtn, _els.cardBtn].forEach(function (btn) {
+    if (btn) btn.addEventListener('click', toggleAudio);
+  });
+
+  // ===== HAMBURGER MENU =====
+  var _hamburgerBtn = document.getElementById('hamburgerBtn');
+  var _mobileMenu   = document.getElementById('mobileMenu');
+
+  if (_hamburgerBtn && _mobileMenu) {
+    _hamburgerBtn.addEventListener('click', function () {
+      var isOpen = _hamburgerBtn.getAttribute('aria-expanded') === 'true';
+      _hamburgerBtn.setAttribute('aria-expanded', String(!isOpen));
+      _hamburgerBtn.setAttribute('aria-label', isOpen ? 'Abrir menú' : 'Cerrar menú');
+      _mobileMenu.setAttribute('aria-hidden', String(isOpen));
+      _mobileMenu.classList.toggle('is-open', !isOpen);
+    });
+
+    // Close on mobile link click
+    _mobileMenu.querySelectorAll('.nav__mobile-link').forEach(function (link) {
+      link.addEventListener('click', function () {
+        _hamburgerBtn.setAttribute('aria-expanded', 'false');
+        _hamburgerBtn.setAttribute('aria-label', 'Abrir menú');
+        _mobileMenu.setAttribute('aria-hidden', 'true');
+        _mobileMenu.classList.remove('is-open');
+      });
+    });
+  }
+
   // ===== IMAGE ERROR FALLBACK =====
   (function () {
     var img = document.querySelector('.about__image-wrap img');
