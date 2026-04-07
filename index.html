@@ -393,6 +393,53 @@
       .stats__divider { display: block; }
     }
     /* ===========================
+       PROGRAMACIÓN
+       =========================== */
+    .schedule {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-2);
+    }
+    @media (min-width: 640px) {
+      .schedule { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .schedule { grid-template-columns: repeat(3, 1fr); }
+    }
+    .schedule__card {
+      background: var(--color-cream);
+      border: 1px solid rgba(122,8,8,0.1);
+      border-radius: var(--radius-md);
+      padding: var(--sp-3);
+      display: flex;
+      gap: var(--sp-2);
+      align-items: flex-start;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .schedule__card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .schedule__icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+    .schedule__name {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-crimson);
+      margin-bottom: 6px;
+    }
+    .schedule__times {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+    .schedule__times strong { color: var(--color-text); font-weight: 600; }
+    /* ===========================
        NAVIGATION
        =========================== */
     .nav {
@@ -718,7 +765,68 @@
     </section>
 
     <!-- ===== PROGRAMACIÓN ===== -->
-    <!-- Task 5 goes here -->
+    <section class="section section--mid" id="programacion" aria-label="Programación">
+      <div class="container">
+        <p class="section-label">Horarios</p>
+        <h2 class="section-title">Programación</h2>
+        <div class="divider"></div>
+
+        <div class="schedule">
+
+          <article class="schedule__card">
+            <div class="schedule__icon" aria-hidden="true">⛪</div>
+            <div class="schedule__info">
+              <h3 class="schedule__name">Misa en vivo</h3>
+              <p class="schedule__times">
+                <strong>Mié y Vie:</strong> 9:00 a.m. y 12:00 p.m.<br>
+                <strong>Dom y 14 de cada mes:</strong> 6:00 a.m., 9:00 a.m. y 12:00 p.m.
+              </p>
+            </div>
+          </article>
+
+          <article class="schedule__card">
+            <div class="schedule__icon" aria-hidden="true">📿</div>
+            <div class="schedule__info">
+              <h3 class="schedule__name">Santo Rosario</h3>
+              <p class="schedule__times">
+                <strong>Lun–Vie:</strong> 3:00 p.m.
+              </p>
+            </div>
+          </article>
+
+          <article class="schedule__card">
+            <div class="schedule__icon" aria-hidden="true">🎙️</div>
+            <div class="schedule__info">
+              <h3 class="schedule__name">Valores Radio</h3>
+              <p class="schedule__times">
+                <strong>Lun–Vie:</strong> 6:00 p.m.
+              </p>
+            </div>
+          </article>
+
+          <article class="schedule__card">
+            <div class="schedule__icon" aria-hidden="true">✨</div>
+            <div class="schedule__info">
+              <h3 class="schedule__name">Sanación, liberación y exorcismo</h3>
+              <p class="schedule__times">
+                <strong>Lun–Vie:</strong> 7:00 p.m.
+              </p>
+            </div>
+          </article>
+
+          <article class="schedule__card">
+            <div class="schedule__icon" aria-hidden="true">🕊️</div>
+            <div class="schedule__info">
+              <h3 class="schedule__name">Grupo conexión juvenil</h3>
+              <p class="schedule__times">
+                <strong>Lun–Vie:</strong> 8:00 p.m.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
 
     <!-- Tasks 6-9 sections go here -->
   </main>
