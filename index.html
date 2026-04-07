@@ -348,9 +348,13 @@
       border-top: 1px solid rgba(201,146,42,0.2);
       max-height: 0;
       overflow: hidden;
-      transition: max-height var(--transition-slow);
+      visibility: hidden;
+      transition: max-height var(--transition-slow), visibility var(--transition-slow);
     }
-    .nav__mobile.is-open { max-height: 300px; }
+    .nav__mobile.is-open {
+      max-height: 80vh;
+      visibility: visible;
+    }
     .nav__mobile-link {
       padding: var(--sp-2) var(--sp-3);
       font-size: 1rem;
@@ -389,7 +393,7 @@
       </nav>
 
       <!-- Pill player -->
-      <div class="nav__player" id="navPlayer" aria-label="Reproductor en vivo">
+      <div class="nav__player" id="navPlayer" role="group" aria-label="Reproductor en vivo">
         <span class="nav__player-dot" id="navPlayerDot" aria-hidden="true"></span>
         <button class="nav__player-btn" id="navPlayBtn" aria-label="Reproducir transmisión en vivo">
           <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true">
@@ -410,6 +414,7 @@
       </div>
 
       <!-- Botón hamburguesa mobile -->
+      <!-- Task 10: JS must toggle aria-expanded, aria-label ("Abrir"/"Cerrar menú"), and #mobileMenu aria-hidden -->
       <button class="nav__hamburger" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
         <span class="nav__hamburger-bar"></span>
         <span class="nav__hamburger-bar"></span>
@@ -418,7 +423,7 @@
     </div>
 
     <!-- Menú mobile -->
-    <div class="nav__mobile" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+    <div class="nav__mobile" id="mobileMenu" aria-hidden="true">
       <a href="#programacion" class="nav__mobile-link">Programación</a>
       <a href="#noticias"     class="nav__mobile-link">Noticias</a>
       <a href="#nosotros"     class="nav__mobile-link">Nosotros</a>
