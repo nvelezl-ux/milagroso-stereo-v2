@@ -1562,6 +1562,7 @@
   }
 
   function toggleAudio() {
+    if (_isLoading) return; // prevent re-entrant calls while buffering
     _clearError();
     if (!_audio) _createAudio();
 
