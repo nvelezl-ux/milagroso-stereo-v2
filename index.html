@@ -2197,9 +2197,11 @@
 
     // ===== NAV SCROLL SHADOW =====
     var navEl = document.getElementById('nav');
-    window.addEventListener('scroll', function() {
-      navEl.classList.toggle('is-scrolled', window.scrollY > 10);
-    }, { passive: true });
+    if (navEl) {
+      window.addEventListener('scroll', function() {
+        navEl.classList.toggle('is-scrolled', window.scrollY > 10);
+      }, { passive: true });
+    }
 
     // ===== NAV LINK ACTIVO =====
     var sections = document.querySelectorAll('section[id]');
