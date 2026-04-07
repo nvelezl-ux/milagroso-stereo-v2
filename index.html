@@ -1239,6 +1239,66 @@
     .chat-rate-msg[hidden] { display: none; }
 
     /* ===========================
+       SECCIÓN DE ORACIONES
+       =========================== */
+    .prayer-form {
+      max-width: 560px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .prayer-form__group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-1);
+    }
+    .prayer-form__label {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--color-text);
+    }
+    .prayer-form__input,
+    .prayer-form__textarea {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      padding: var(--sp-2) var(--sp-2);
+      border: 1px solid rgba(122, 8, 8, 0.25);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      color: var(--color-text);
+      transition: border-color 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .prayer-form__input:focus,
+    .prayer-form__textarea:focus {
+      outline: 2px solid var(--color-gold);
+      outline-offset: 2px;
+      border-color: var(--color-gold);
+    }
+    .prayer-form__textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .prayer-form__error {
+      font-size: 0.8rem;
+      color: var(--color-error);
+      margin: 0;
+      min-height: 1em;
+    }
+    .prayer-form__success {
+      font-size: 0.95rem;
+      color: #1a6b2a;
+      font-weight: 600;
+      text-align: center;
+      padding: var(--sp-2);
+      background: #e8f5e9;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ===========================
        ANIMACIONES DE ENTRADA
        =========================== */
     .fade-in {
@@ -1283,6 +1343,7 @@
         <a href="#programacion" class="nav__link">Programación</a>
         <a href="#noticias"     class="nav__link">Noticias</a>
         <a href="#nosotros"     class="nav__link">Nosotros</a>
+        <a href="#oraciones"    class="nav__link">Oraciones</a>
         <a href="#en-vivo"      class="nav__link">En Vivo</a>
       </nav>
 
@@ -1321,7 +1382,8 @@
       <a href="#programacion" class="nav__mobile-link">Programación</a>
       <a href="#noticias"     class="nav__mobile-link">Noticias</a>
       <a href="#nosotros"     class="nav__mobile-link">Nosotros</a>
-      <a href="#en-vivo"     class="nav__mobile-link">En Vivo</a>
+      <a href="#oraciones"    class="nav__mobile-link">Oraciones</a>
+      <a href="#en-vivo"      class="nav__mobile-link">En Vivo</a>
     </div>
   </header>
 
@@ -1538,6 +1600,36 @@
             Conocer la Fundación
           </a>
         </div>
+      </div>
+    </section>
+
+    <!-- ===== ORACIONES ===== -->
+    <section class="section section--mid" id="oraciones" aria-labelledby="oraciones-heading">
+      <div class="container fade-in">
+        <h2 class="section__title" id="oraciones-heading">Peticiones de Oración</h2>
+        <p class="section__subtitle">Envíanos tu intención y oraremos por ti.</p>
+        <form class="prayer-form" id="prayerForm" novalidate>
+          <div class="prayer-form__group">
+            <label class="prayer-form__label" for="prayerName">Tu nombre</label>
+            <input class="prayer-form__input" id="prayerName" type="text"
+                   placeholder="Nombre (2–20 caracteres)" maxlength="20"
+                   autocomplete="off" aria-required="true">
+            <p class="prayer-form__error" id="prayerNameError" role="alert" aria-live="assertive"></p>
+          </div>
+          <div class="prayer-form__group">
+            <label class="prayer-form__label" for="prayerIntention">Tu intención</label>
+            <textarea class="prayer-form__textarea" id="prayerIntention"
+                      placeholder="Escribe tu petición (máx. 500 caracteres)"
+                      maxlength="500" rows="4" aria-required="true"></textarea>
+            <p class="prayer-form__error" id="prayerIntentionError" role="alert" aria-live="assertive"></p>
+          </div>
+          <button type="submit" class="btn btn--primary" id="prayerSubmit">
+            🙏 Enviar petición
+          </button>
+          <p class="prayer-form__success" id="prayerSuccess" hidden>
+            ✓ Tu petición fue recibida. Oraremos por ti.
+          </p>
+        </form>
       </div>
     </section>
 
@@ -2095,7 +2187,7 @@
         }
       });
 
-      _db.ref('messages').limitToLast(50).on('child_added', function (snap) {
+      _db.ref('messages').limitToLast(25).on('child_added', function (snap) {
         var data = snap.val();
         if (!data || typeof data.text !== 'string' || typeof data.username !== 'string') return;
         _appendMessage(data.username, data.text);
@@ -2179,6 +2271,64 @@
 
     if (_chatMsgInput) { _chatMsgInput.value = ''; _chatMsgInput.focus(); }
   });
+
+  // ===== FORMULARIO DE ORACIONES =====
+  (function () {
+    var prayerForm           = document.getElementById('prayerForm');
+    var prayerName           = document.getElementById('prayerName');
+    var prayerIntention      = document.getElementById('prayerIntention');
+    var prayerNameError      = document.getElementById('prayerNameError');
+    var prayerIntentionError = document.getElementById('prayerIntentionError');
+    var prayerSuccess        = document.getElementById('prayerSuccess');
+    var prayerSubmit         = document.getElementById('prayerSubmit');
+
+    if (!prayerForm) return;
+
+    prayerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nameRaw      = prayerName      ? prayerName.value.trim()      : '';
+      var intentionRaw = prayerIntention ? prayerIntention.value.trim() : '';
+      var valid = true;
+
+      if (!USERNAME_REGEX.test(nameRaw)) {
+        if (prayerNameError) prayerNameError.textContent = 'El nombre debe tener 2–20 caracteres alfanuméricos.';
+        valid = false;
+      } else {
+        if (prayerNameError) prayerNameError.textContent = '';
+      }
+
+      if (!intentionRaw || intentionRaw.length < 5 || intentionRaw.replace(/\s/g, '').length === 0) {
+        if (prayerIntentionError) prayerIntentionError.textContent = 'Por favor escribe tu intención (mínimo 5 caracteres).';
+        valid = false;
+      } else if (intentionRaw.length > 500) {
+        if (prayerIntentionError) prayerIntentionError.textContent = 'La intención no puede superar los 500 caracteres.';
+        valid = false;
+      } else {
+        if (prayerIntentionError) prayerIntentionError.textContent = '';
+      }
+
+      if (!valid) return;
+
+      // Inicializar Firebase si el chat no fue abierto aún
+      _initFirebase();
+      if (!_db) return;
+
+      if (prayerSubmit) prayerSubmit.disabled = true;
+
+      _db.ref('prayers').push({
+        name:      sanitizeText(nameRaw),
+        intention: sanitizeText(intentionRaw),
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      }).then(function () {
+        if (prayerForm)    prayerForm.reset();
+        if (prayerSuccess) prayerSuccess.hidden = false;
+        if (prayerSubmit)  prayerSubmit.hidden  = true;
+      }).catch(function () {
+        if (prayerSubmit) prayerSubmit.disabled = false;
+        if (prayerIntentionError) prayerIntentionError.textContent = 'Error al enviar. Inténtalo de nuevo.';
+      });
+    });
+  }());
 
   // ===== INTERSECTION OBSERVER — fade-in =====
   (function() {
