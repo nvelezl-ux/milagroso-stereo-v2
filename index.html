@@ -169,6 +169,184 @@
       margin-bottom: var(--sp-5);
     }
     /* ===========================
+       HERO
+       =========================== */
+    .hero {
+      background: linear-gradient(160deg, var(--color-crimson-deep) 0%, #3D0000 100%);
+      min-height: calc(100vh - var(--nav-height));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(122,8,8,0.4) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero__inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-8);
+      padding: var(--sp-10) var(--sp-4);
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    @media (min-width: 768px) {
+      .hero__inner {
+        grid-template-columns: 1fr 1fr;
+        padding: var(--sp-10) var(--sp-6);
+      }
+    }
+    .hero__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .hero__title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 700;
+      color: var(--color-cream);
+      line-height: 1.1;
+    }
+    .hero__title em {
+      font-style: italic;
+      color: var(--color-gold-light);
+    }
+    .hero__quote {
+      font-family: var(--font-quote);
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--color-gold-light);
+      line-height: 1.5;
+      border-left: 2px solid var(--color-gold);
+      padding-left: var(--sp-2);
+    }
+    .hero__description {
+      font-size: 0.9375rem;
+      color: rgba(250,247,242,0.75);
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .hero__ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      margin-top: var(--sp-1);
+    }
+    .hero__status {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-1);
+      font-size: 0.8125rem;
+      color: rgba(250,247,242,0.55);
+      margin-top: var(--sp-1);
+    }
+    .hero__status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #888;
+      flex-shrink: 0;
+      transition: background var(--transition-base);
+    }
+    .hero__status-dot.is-live {
+      background: var(--color-success);
+      box-shadow: 0 0 8px var(--color-success);
+      animation: pulse-dot 2s infinite;
+    }
+    .hero__artwork {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-3);
+      order: -1;
+    }
+    @media (min-width: 768px) {
+      .hero__artwork { order: 0; }
+    }
+    .hero__halo {
+      width: clamp(160px, 25vw, 240px);
+      height: clamp(160px, 25vw, 240px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,146,42,0.15) 0%, rgba(201,146,42,0.05) 60%, transparent 70%);
+      border: 1px solid rgba(201,146,42,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: halo-pulse 4s ease-in-out infinite;
+    }
+    @keyframes halo-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201,146,42,0.0); }
+      50% { box-shadow: 0 0 40px 10px rgba(201,146,42,0.12); }
+    }
+    .hero__cross-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+      box-shadow: 0 4px 20px rgba(201,146,42,0.4);
+    }
+    .hero__cross {
+      font-size: 2.5rem;
+      color: var(--color-crimson-deep);
+      line-height: 1;
+    }
+    .hero__artwork-label {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 0.875rem;
+      color: rgba(232,184,75,0.6);
+      letter-spacing: 0.05em;
+    }
+    /* Buttons (shared) */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      padding: var(--sp-2) var(--sp-4);
+      border-radius: var(--radius-md);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      border: none;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn--primary {
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+      color: var(--color-crimson-deep);
+      box-shadow: 0 2px 12px rgba(201,146,42,0.3);
+    }
+    .btn--primary:hover { box-shadow: 0 4px 20px rgba(201,146,42,0.45); }
+    .btn--secondary {
+      background: transparent;
+      color: var(--color-cream);
+      border: 1px solid rgba(250,247,242,0.3);
+    }
+    .btn--secondary:hover { border-color: var(--color-gold); color: var(--color-gold); }
+    /* Scroll hint */
+    .hero__scroll-hint {
+      position: absolute;
+      bottom: var(--sp-4);
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(250,247,242,0.3);
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+    /* ===========================
        NAVIGATION
        =========================== */
     .nav {
@@ -432,7 +610,54 @@
   </header>
 
   <main id="main-content">
-    <!-- Sections populated in tasks 3-9 -->
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero" aria-label="Bienvenida">
+      <div class="hero__inner container">
+
+        <!-- Columna izquierda: texto y CTAs -->
+        <div class="hero__content">
+          <p class="section-label">Radio Católica • 24/7</p>
+          <h1 class="hero__title">Milagroso<br><em>Stereo</em></h1>
+          <p class="hero__quote">"Vengo a tí Señor de Los Milagros<br>de los Brazos Caídos"</p>
+          <p class="hero__description">Acompañando tu fe con la Palabra de Dios. Misa en vivo, el Santo Rosario y programas de sanación y liberación con Padre Hollman.</p>
+          <div class="hero__ctas">
+            <button class="btn btn--primary" id="heroPlayBtn" aria-label="Escuchar transmisión en vivo">
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M0 0 L12 7 L0 14 Z"/></svg>
+              Escuchar en vivo
+            </button>
+            <a href="#programacion" class="btn btn--secondary">Ver programación</a>
+          </div>
+          <div class="hero__status" id="heroStatus" aria-live="polite">
+            <span class="hero__status-dot" id="heroStatusDot" aria-hidden="true"></span>
+            <span id="heroStatusText">Conectando...</span>
+          </div>
+        </div>
+
+        <!-- Columna derecha: artwork -->
+        <div class="hero__artwork" aria-hidden="true">
+          <div class="hero__halo">
+            <div class="hero__cross-wrap">
+              <span class="hero__cross">✝</span>
+            </div>
+          </div>
+          <p class="hero__artwork-label">Padre Hollman</p>
+        </div>
+
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="hero__scroll-hint" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <!-- Task 4 goes here -->
+
+    <!-- ===== PROGRAMACIÓN ===== -->
+    <!-- Task 5 goes here -->
+
+    <!-- Tasks 6-9 sections go here -->
   </main>
 
   <!-- Firebase SDK goes here (Task 11) -->
