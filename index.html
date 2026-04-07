@@ -27,6 +27,7 @@
       --color-crimson-deep:  #1A0404;
       --color-crimson:       #7A0808;
       --color-crimson-mid:   #A91B1B;
+      --color-crimson-darker: #3D0000;
       --color-gold:          #C9922A;
       --color-gold-light:    #E8B84B;
       --color-cream:         #FAF7F2;
@@ -145,6 +146,10 @@
       max-width: 1100px;
       margin: 0 auto;
     }
+    /* Offset for fixed nav on anchor navigation */
+    section[id] {
+      scroll-margin-top: var(--nav-height);
+    }
     .section-label {
       font-family: var(--font-body);
       font-size: 0.75rem;
@@ -172,8 +177,9 @@
        HERO
        =========================== */
     .hero {
-      background: linear-gradient(160deg, var(--color-crimson-deep) 0%, #3D0000 100%);
+      background: linear-gradient(160deg, var(--color-crimson-deep) 0%, var(--color-crimson-darker) 100%);
       min-height: calc(100vh - var(--nav-height));
+      min-height: calc(100dvh - var(--nav-height));
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -346,11 +352,14 @@
       0%, 100% { transform: translateX(-50%) translateY(0); }
       50% { transform: translateX(-50%) translateY(6px); }
     }
+    @media (max-height: 600px) {
+      .hero__scroll-hint { display: none; }
+    }
     /* ===========================
        STATS BAR
        =========================== */
     .stats {
-      background: linear-gradient(90deg, #3D0000, var(--color-crimson), #3D0000);
+      background: linear-gradient(90deg, var(--color-crimson-darker), var(--color-crimson), var(--color-crimson-darker));
       border-top: 1px solid rgba(201,146,42,0.3);
       border-bottom: 1px solid rgba(201,146,42,0.3);
     }
