@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Milagroso Stereo — Radio Católica 24/7 con Padre Hollman. Escucha misa en vivo, el Santo Rosario y programas de sanación.">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net https://www.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://*.firebaseio.com https://*.firebase.com wss://*.firebaseio.com https://servidor33-5.brlogic.com:7100; img-src 'self' data: https:; media-src https: blob:;">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#1A0404">
+  <!-- CSP: 'unsafe-inline' required for single-file architecture (inline <script> and <style>).
+       This is a deliberate trade-off. Restrict script-src to specific CDNs as mitigation. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://cdn.jsdelivr.net https://www.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src https://*.firebaseio.com https://*.firebase.com wss://*.firebaseio.com https://servidor33-5.brlogic.com:7100; img-src 'self' data: https://milagroso-stereo.vercel.app https://firebasestorage.googleapis.com; media-src https://servidor33-5.brlogic.com:7100 blob:; base-uri 'self'; frame-ancestors 'none'; form-action 'self';">
 
   <title>Milagroso Stereo — Radio Católica 24/7</title>
 
@@ -30,6 +34,7 @@
       --color-text:          #1A0404;
       --color-text-muted:    #6B4040;
       --color-success:       #4CAF50;
+      --color-error:         #DC2626;
       --color-overlay:       rgba(26, 4, 4, 0.85);
 
       /* Tipografía */
@@ -78,7 +83,6 @@
 
     html {
       scroll-behavior: smooth;
-      font-size: 16px;
     }
 
     body {
@@ -97,7 +101,7 @@
     /* Skip link accesibilidad */
     .skip-link {
       position: absolute;
-      top: -100%;
+      top: -3rem;
       left: var(--sp-2);
       background: var(--color-gold);
       color: var(--color-crimson-deep);
