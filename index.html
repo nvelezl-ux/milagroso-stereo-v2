@@ -347,6 +347,52 @@
       50% { transform: translateX(-50%) translateY(6px); }
     }
     /* ===========================
+       STATS BAR
+       =========================== */
+    .stats {
+      background: linear-gradient(90deg, #3D0000, var(--color-crimson), #3D0000);
+      border-top: 1px solid rgba(201,146,42,0.3);
+      border-bottom: 1px solid rgba(201,146,42,0.3);
+    }
+    .stats__inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--sp-4);
+      padding: var(--sp-5) var(--sp-4);
+    }
+    .stats__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-align: center;
+    }
+    .stats__number {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      font-weight: 700;
+      color: var(--color-gold-light);
+      line-height: 1;
+    }
+    .stats__label {
+      font-size: 0.8125rem;
+      color: rgba(250,247,242,0.65);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .stats__divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(201,146,42,0.3);
+      display: none;
+    }
+    @media (min-width: 480px) {
+      .stats__divider { display: block; }
+    }
+    /* ===========================
        NAVIGATION
        =========================== */
     .nav {
@@ -652,7 +698,24 @@
     </section>
 
     <!-- ===== STATS ===== -->
-    <!-- Task 4 goes here -->
+    <section class="stats" id="stats" aria-label="Estadísticas">
+      <div class="stats__inner container">
+        <div class="stats__item">
+          <span class="stats__number">+20</span>
+          <span class="stats__label">Años al aire</span>
+        </div>
+        <div class="stats__divider" aria-hidden="true"></div>
+        <div class="stats__item">
+          <span class="stats__number">24/7</span>
+          <span class="stats__label">Transmisión continua</span>
+        </div>
+        <div class="stats__divider" aria-hidden="true"></div>
+        <div class="stats__item">
+          <span class="stats__number">4+</span>
+          <span class="stats__label">Programas en vivo</span>
+        </div>
+      </div>
+    </section>
 
     <!-- ===== PROGRAMACIÓN ===== -->
     <!-- Task 5 goes here -->
