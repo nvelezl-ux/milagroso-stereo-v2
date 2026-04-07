@@ -1495,13 +1495,25 @@
   var privacyClose   = document.getElementById('privacyClose');
   var privacyOverlay = document.getElementById('privacyOverlay');
 
+  function getFocusable(container) {
+    return Array.from(container.querySelectorAll(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter(function (el) { return !el.closest('[hidden]') && !el.closest('[aria-hidden="true"]'); });
+  }
+
   function openPrivacy() {
     privacyModal.hidden = false;
+    document.getElementById('main-content').setAttribute('inert', '');
+    document.querySelector('.footer').setAttribute('inert', '');
+    document.getElementById('nav').setAttribute('inert', '');
     privacyClose.focus();
     document.body.style.overflow = 'hidden';
   }
   function closePrivacy() {
     privacyModal.hidden = true;
+    document.getElementById('main-content').removeAttribute('inert');
+    document.querySelector('.footer').removeAttribute('inert');
+    document.getElementById('nav').removeAttribute('inert');
     document.body.style.overflow = '';
     if (privacyBtn) privacyBtn.focus();
   }
@@ -1510,7 +1522,21 @@
   if (privacyClose)   privacyClose.addEventListener('click', closePrivacy);
   if (privacyOverlay) privacyOverlay.addEventListener('click', closePrivacy);
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && privacyModal && !privacyModal.hidden) closePrivacy();
+    if (e.key === 'Escape' && privacyModal && !privacyModal.hidden) {
+      closePrivacy();
+      return;
+    }
+    if (e.key === 'Tab' && privacyModal && !privacyModal.hidden) {
+      var focusable = getFocusable(privacyModal);
+      if (focusable.length === 0) { e.preventDefault(); return; }
+      var first = focusable[0];
+      var last  = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    }
   });
   </script>
 
