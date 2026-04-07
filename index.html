@@ -1057,6 +1057,185 @@
     .modal__body { display: flex; flex-direction: column; gap: var(--sp-2); }
     .modal__body p { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.7; }
     .modal__body a { color: var(--color-crimson); text-decoration: underline; }
+
+    /* ===========================
+       CHAT FLOTANTE
+       =========================== */
+    .chat-widget {
+      position: fixed;
+      bottom: var(--sp-5);
+      right: calc(var(--sp-4) + 48px);
+      z-index: 800;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--sp-2);
+    }
+    .chat-tab {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--color-crimson);
+      border: 2px solid rgba(201,146,42,0.4);
+      color: var(--color-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      transition: transform var(--transition-fast), background var(--transition-fast);
+    }
+    .chat-tab:hover { transform: scale(1.08); background: var(--color-crimson-mid); }
+    .chat-tab__badge {
+      position: absolute;
+      top: -4px; right: -4px;
+      background: var(--color-gold);
+      color: var(--color-crimson-deep);
+      border-radius: var(--radius-pill);
+      font-size: 0.625rem;
+      font-weight: 700;
+      min-width: 18px; height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+    }
+    .chat-tab__badge[hidden] { display: none; }
+    .chat-panel {
+      width: 300px;
+      max-height: 420px;
+      background: var(--color-cream);
+      border: 1px solid rgba(122,8,8,0.12);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-panel[hidden] { display: none; }
+    .chat-panel__header {
+      background: var(--color-crimson-deep);
+      padding: var(--sp-2) var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .chat-panel__title {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--color-cream);
+      flex: 1;
+    }
+    .chat-panel__users {
+      font-size: 0.7rem;
+      color: rgba(250,247,242,0.5);
+    }
+    .chat-panel__close {
+      background: none;
+      border: none;
+      color: rgba(250,247,242,0.6);
+      font-size: 1rem;
+      line-height: 1;
+      padding: 2px 4px;
+      transition: color var(--transition-fast);
+    }
+    .chat-panel__close:hover { color: var(--color-cream); }
+    .chat-login {
+      padding: var(--sp-4) var(--sp-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+      flex: 1;
+      justify-content: center;
+    }
+    .chat-login__msg { font-size: 0.875rem; color: var(--color-text-muted); text-align: center; }
+    .chat-login__input {
+      padding: var(--sp-1) var(--sp-2);
+      border: 1px solid rgba(122,8,8,0.2);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-family: inherit;
+      color: var(--color-text);
+      background: var(--color-cream);
+      transition: border-color var(--transition-fast);
+    }
+    .chat-login__input:focus { border-color: var(--color-gold); outline: none; }
+    .chat-login__error { font-size: 0.75rem; color: var(--color-error); min-height: 1em; }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--sp-2) var(--sp-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-1);
+      scroll-behavior: smooth;
+    }
+    .chat-messages[hidden] { display: none; }
+    .chat-msg {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      animation: msg-in 200ms ease;
+    }
+    @keyframes msg-in {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .chat-msg__user {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--color-crimson);
+    }
+    .chat-msg__text {
+      font-size: 0.8125rem;
+      color: var(--color-text);
+      line-height: 1.5;
+      word-break: break-word;
+      background: var(--color-cream-mid);
+      padding: 4px var(--sp-1);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
+      max-width: 90%;
+    }
+    .chat-form {
+      display: flex;
+      gap: var(--sp-1);
+      padding: var(--sp-2) var(--sp-3);
+      border-top: 1px solid rgba(122,8,8,0.08);
+    }
+    .chat-form[hidden] { display: none; }
+    .chat-form__input {
+      flex: 1;
+      padding: var(--sp-1) var(--sp-2);
+      border: 1px solid rgba(122,8,8,0.2);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-family: inherit;
+      color: var(--color-text);
+      background: var(--color-cream);
+      transition: border-color var(--transition-fast);
+    }
+    .chat-form__input:focus { border-color: var(--color-gold); outline: none; }
+    .chat-form__send {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--color-crimson);
+      border: none;
+      color: var(--color-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background var(--transition-fast);
+    }
+    .chat-form__send:hover { background: var(--color-crimson-mid); }
+    .chat-form__send:disabled { opacity: 0.4; cursor: not-allowed; }
+    .chat-rate-msg {
+      font-size: 0.75rem;
+      color: var(--color-error);
+      padding: 0 var(--sp-3) var(--sp-2);
+      text-align: center;
+    }
+    .chat-rate-msg[hidden] { display: none; }
   </style>
 </head>
 <body>
@@ -1452,7 +1631,64 @@
     </div>
   </div>
 
-  <!-- Firebase SDK goes here (Task 11) -->
+  <!-- ===== CHAT FLOTANTE ===== -->
+  <div class="chat-widget" id="chatWidget">
+
+    <!-- Tab toggle -->
+    <button class="chat-tab" id="chatTab" aria-expanded="false" aria-controls="chatPanel" aria-label="Abrir chat en vivo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      <span class="chat-tab__badge" id="chatBadge" hidden>0</span>
+    </button>
+
+    <!-- Panel -->
+    <div class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="Chat en vivo" aria-hidden="true" hidden>
+      <header class="chat-panel__header">
+        <span class="chat-panel__title">Chat en vivo</span>
+        <span class="chat-panel__users" id="chatUsersCount" aria-live="polite">0 en línea</span>
+        <button class="chat-panel__close" id="chatClose" aria-label="Cerrar chat">✕</button>
+      </header>
+
+      <!-- Login screen -->
+      <div class="chat-login" id="chatLogin">
+        <p class="chat-login__msg">Ingresa un nombre para unirte al chat</p>
+        <input
+          class="chat-login__input"
+          id="chatUsernameInput"
+          type="text"
+          placeholder="Tu nombre (2–20 caracteres)"
+          maxlength="20"
+          autocomplete="off"
+          aria-label="Nombre de usuario"
+        >
+        <p class="chat-login__error" id="chatUsernameError" role="alert" aria-live="assertive"></p>
+        <button class="btn btn--primary" id="chatJoinBtn" style="width:100%;justify-content:center;">Unirse</button>
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages" id="chatMessages" aria-live="polite" aria-relevant="additions" role="log" hidden></div>
+
+      <!-- Input form -->
+      <form class="chat-form" id="chatForm" hidden>
+        <input
+          class="chat-form__input"
+          id="chatMsgInput"
+          type="text"
+          placeholder="Escribe un mensaje..."
+          maxlength="300"
+          autocomplete="off"
+          aria-label="Mensaje"
+        >
+        <button type="submit" class="chat-form__send" aria-label="Enviar mensaje">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </form>
+      <p class="chat-rate-msg" id="chatRateMsg" role="alert" hidden></p>
+    </div>
+  </div>
+
+  <!-- Firebase SDK (must load before main script) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
   <!-- Main script goes here (Tasks 10-12) -->
   <script>
   // ===== NEWS TOGGLE =====
@@ -1690,6 +1926,231 @@
         if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
       }
     }
+  });
+
+  // ===== SECURITY HELPERS =====
+  // IMPORTANT: Always use textContent (never innerHTML) for user-supplied content
+  function sanitizeText(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;');
+  }
+
+  var USERNAME_REGEX = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\-_]{2,20}$/;
+
+  var BLOCKED_WORDS = [
+    'puta','puto','mierda','coño','culo','joder','hostia','cabrón','cabron',
+    'hijo de puta','hdp','maricón','maricon','pendejo','estupido','idiota',
+    'imbecil','gilipollas','fuck','shit','bitch','asshole','bastard','damn',
+    'faggot','nigger','whore','cunt','cock','dick','pussy'
+  ];
+
+  function containsBlockedWords(text) {
+    var lower = text.toLowerCase();
+    return BLOCKED_WORDS.some(function (w) { return lower.indexOf(w) !== -1; });
+  }
+
+  // ===== RATE LIMITER =====
+  var _rateTimestamps = [];
+  var RATE_MAX = 3;
+  var RATE_WINDOW = 60000;
+
+  function rateCanSend() {
+    var now = Date.now();
+    _rateTimestamps = _rateTimestamps.filter(function (t) { return now - t < RATE_WINDOW; });
+    return _rateTimestamps.length < RATE_MAX;
+  }
+  function rateRecord() { _rateTimestamps.push(Date.now()); }
+  function rateSecondsUntilFree() {
+    if (_rateTimestamps.length === 0) return 0;
+    var oldest = Math.min.apply(null, _rateTimestamps);
+    return Math.ceil((RATE_WINDOW - (Date.now() - oldest)) / 1000);
+  }
+
+  // ===== FIREBASE CHAT =====
+  // IMPORTANT: Restrict this API key to milagroso-stereo.vercel.app in Firebase Console
+  var FIREBASE_CONFIG = {
+    apiKey:            'AIzaSyBShszAqo-lfetPndsRsTEKRrlEVtonGQs',
+    authDomain:        'milagroso-stereo.firebaseapp.com',
+    databaseURL:       'https://milagroso-stereo-default-rtdb.firebaseio.com',
+    projectId:         'milagroso-stereo',
+    storageBucket:     'milagroso-stereo.firebasestorage.app',
+    messagingSenderId: '816826675148',
+    appId:             '1:816826675148:web:21d48e552b9ba487cdb769'
+  };
+
+  var _firebaseApp  = null;
+  var _db           = null;
+  var _chatUsername = null;
+  var _presenceRef  = null;
+  var _SESSION_ID   = Math.random().toString(36).slice(2, 10);
+  var _chatOpen     = false;
+  var _unreadCount  = 0;
+
+  var _chatTab      = document.getElementById('chatTab');
+  var _chatPanel    = document.getElementById('chatPanel');
+  var _chatClose    = document.getElementById('chatClose');
+  var _chatBadge    = document.getElementById('chatBadge');
+  var _chatLogin    = document.getElementById('chatLogin');
+  var _chatMessages = document.getElementById('chatMessages');
+  var _chatForm     = document.getElementById('chatForm');
+  var _chatRateMsg  = document.getElementById('chatRateMsg');
+  var _chatJoinBtn  = document.getElementById('chatJoinBtn');
+  var _chatUsernameInput = document.getElementById('chatUsernameInput');
+  var _chatUsernameError = document.getElementById('chatUsernameError');
+  var _chatMsgInput = document.getElementById('chatMsgInput');
+  var _chatUsersCount = document.getElementById('chatUsersCount');
+
+  function _initFirebase() {
+    if (_firebaseApp) return;
+    try {
+      _firebaseApp = firebase.initializeApp(FIREBASE_CONFIG);
+      _db = firebase.database();
+    } catch (e) {
+      console.error('Firebase init error:', e);
+    }
+  }
+
+  function _openChat() {
+    _chatPanel.hidden = false;
+    _chatTab.setAttribute('aria-expanded', 'true');
+    _chatPanel.setAttribute('aria-hidden', 'false');
+    _chatOpen = true;
+    _unreadCount = 0;
+    _chatBadge.hidden = true;
+    _chatBadge.textContent = '0';
+    _initFirebase();
+    if (_chatUsername) {
+      if (_chatMsgInput) _chatMsgInput.focus();
+    } else {
+      var saved = localStorage.getItem('ms_chat_username');
+      if (saved && USERNAME_REGEX.test(saved)) {
+        _joinChat(saved);
+      } else {
+        if (_chatUsernameInput) _chatUsernameInput.focus();
+      }
+    }
+  }
+
+  function _closeChat() {
+    _chatPanel.hidden = true;
+    _chatTab.setAttribute('aria-expanded', 'false');
+    _chatPanel.setAttribute('aria-hidden', 'true');
+    _chatOpen = false;
+    _chatTab.focus();
+  }
+
+  if (_chatTab) _chatTab.addEventListener('click', function () {
+    _chatOpen ? _closeChat() : _openChat();
+  });
+  if (_chatClose) _chatClose.addEventListener('click', _closeChat);
+
+  function _joinChat(username) {
+    _chatUsername = username;
+    // Store sanitized version to prevent stored XSS via localStorage
+    localStorage.setItem('ms_chat_username', sanitizeText(username));
+    if (_chatLogin)    _chatLogin.hidden    = true;
+    if (_chatMessages) _chatMessages.hidden = false;
+    if (_chatForm)     _chatForm.hidden     = false;
+
+    if (_db) {
+      _presenceRef = _db.ref('presence/' + _SESSION_ID);
+      _presenceRef.set(sanitizeText(username));
+      _presenceRef.onDisconnect().remove();
+
+      _db.ref('presence').on('value', function (snap) {
+        var count = snap.numChildren();
+        if (_chatUsersCount) {
+          _chatUsersCount.textContent = count + (count === 1 ? ' en línea' : ' en línea');
+        }
+      });
+
+      _db.ref('messages').limitToLast(50).on('child_added', function (snap) {
+        var data = snap.val();
+        if (!data || typeof data.text !== 'string' || typeof data.username !== 'string') return;
+        _appendMessage(data.username, data.text);
+        if (!_chatOpen) {
+          _unreadCount++;
+          _chatBadge.textContent = _unreadCount > 9 ? '9+' : String(_unreadCount);
+          _chatBadge.hidden = false;
+        }
+      });
+    }
+    if (_chatMsgInput) _chatMsgInput.focus();
+  }
+
+  function _appendMessage(username, text) {
+    // SECURITY: Use textContent exclusively — never innerHTML with user data
+    var msg = document.createElement('div');
+    msg.className = 'chat-msg';
+
+    var userEl = document.createElement('span');
+    userEl.className = 'chat-msg__user';
+    userEl.textContent = username; // safe
+
+    var textEl = document.createElement('p');
+    textEl.className = 'chat-msg__text';
+    textEl.textContent = text; // safe
+
+    msg.appendChild(userEl);
+    msg.appendChild(textEl);
+    if (_chatMessages) {
+      _chatMessages.appendChild(msg);
+      _chatMessages.scrollTop = _chatMessages.scrollHeight;
+    }
+  }
+
+  // Join button
+  if (_chatJoinBtn) _chatJoinBtn.addEventListener('click', function () {
+    var raw = _chatUsernameInput ? _chatUsernameInput.value.trim() : '';
+    if (!USERNAME_REGEX.test(raw)) {
+      if (_chatUsernameError) _chatUsernameError.textContent = 'El nombre debe tener 2–20 caracteres alfanuméricos.';
+      if (_chatUsernameInput) _chatUsernameInput.focus();
+      return;
+    }
+    if (_chatUsernameError) _chatUsernameError.textContent = '';
+    _joinChat(raw);
+  });
+
+  if (_chatUsernameInput) _chatUsernameInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); if (_chatJoinBtn) _chatJoinBtn.click(); }
+  });
+
+  // Send message
+  if (_chatForm) _chatForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!_chatUsername || !_db) return;
+
+    var raw = _chatMsgInput ? _chatMsgInput.value.trim() : '';
+    if (!raw || raw.length > 300 || raw.replace(/\s/g, '').length === 0) return;
+
+    if (containsBlockedWords(raw)) {
+      if (_chatRateMsg) { _chatRateMsg.textContent = 'Mensaje no permitido.'; _chatRateMsg.hidden = false; }
+      setTimeout(function () { if (_chatRateMsg) _chatRateMsg.hidden = true; }, 3000);
+      return;
+    }
+
+    if (!rateCanSend()) {
+      var secs = rateSecondsUntilFree();
+      if (_chatRateMsg) { _chatRateMsg.textContent = 'Espera ' + secs + 's antes de enviar otro mensaje.'; _chatRateMsg.hidden = false; }
+      setTimeout(function () { if (_chatRateMsg) _chatRateMsg.hidden = true; }, secs * 1000);
+      return;
+    }
+
+    rateRecord();
+    if (_chatRateMsg) _chatRateMsg.hidden = true;
+
+    // Store raw text — textContent in _appendMessage makes it safe to display
+    _db.ref('messages').push({
+      username:  sanitizeText(_chatUsername),
+      text:      raw,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    });
+
+    if (_chatMsgInput) { _chatMsgInput.value = ''; _chatMsgInput.focus(); }
   });
   </script>
 
