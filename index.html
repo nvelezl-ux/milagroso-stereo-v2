@@ -718,7 +718,7 @@
       padding: 0 var(--sp-3);
     }
     .news-card__body.is-open {
-      max-height: 400px;
+      max-height: 1000px;
       padding-bottom: var(--sp-3);
     }
     .news-card__body p { font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: var(--sp-2); line-height: 1.7; }
@@ -1136,7 +1136,6 @@
               alt="Padre Hollman, fundador de Milagroso Stereo"
               width="400" height="500"
               loading="lazy"
-              onerror="this.style.display='none'"
             >
           </div>
         </div>
@@ -1182,7 +1181,7 @@
             <div class="player-card__cross" aria-hidden="true">✝</div>
             <div>
               <h3 class="player-card__name">Milagroso Stereo</h3>
-              <p class="player-card__sub" id="playerCardSub">Al aire — En directo</p>
+              <p class="player-card__sub" id="playerCardSub">Listo para transmitir</p>
             </div>
           </div>
           <div class="player-card__controls">
@@ -1225,6 +1224,17 @@
       body.classList.toggle('is-open', !isOpen);
     });
   });
+
+  // ===== IMAGE ERROR FALLBACK =====
+  (function () {
+    var img = document.querySelector('.about__image-wrap img');
+    if (img) {
+      img.addEventListener('error', function () {
+        var wrap = img.closest('.about__image-wrap');
+        if (wrap) wrap.style.display = 'none';
+      });
+    }
+  })();
   </script>
 
 </body>
